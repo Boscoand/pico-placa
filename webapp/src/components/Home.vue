@@ -6,17 +6,18 @@
     <v-list-item three-line>
 
       <v-list-item-content>
-
+        <!-- Title -->
         <v-list-item-title class="headline mt-4 mb-10">Predictor de Pico y Placa</v-list-item-title>
         <v-text-field
             v-model="license_plate"
             :rules="rules"
             :counter="7"
             label="Ingrese la placa de su vehículo"
-            required
         ></v-text-field>
 
         <v-row>
+
+          <!-- Date Picker -->
           <v-col cols="12" sm="6">
             <v-menu
               ref="date_menu"
@@ -44,6 +45,7 @@
             </v-menu>
           </v-col>
 
+          <!-- Time Picker -->
           <v-col cols="12" sm="6">
             <v-menu
               ref="time_menu"
@@ -78,16 +80,22 @@
       </v-list-item-content>
     </v-list-item>
 
+    <!-- Execute Query -->
     <v-card-actions>
-      <v-btn tile color="primary" dark v-on:click="query">CONSULTAR</v-btn>
+      <v-btn tile color="primary" dark v-on:click="query" class="mb-5">CONSULTAR</v-btn>
     </v-card-actions>
 
-    <v-alert type="success" class="ml-2 mr-2 mt-10" v-show="show_success_alert">
+    <!-- Alerts -->
+    <v-alert type="success" class="ml-2 mr-2" v-show="show_success_alert">
       Su vehículo sí puede circular el {{date}} a las {{time}}.
     </v-alert>
 
-    <v-alert type="error" class="ml-2 mr-2 mt-10" v-show="show_error_alert">
+    <v-alert type="error" class="ml-2 mr-2" v-show="show_error_alert">
       Su vehículo no puede circular el {{date}} a las {{time}}.
+    </v-alert>
+
+    <v-alert type="error" class="ml-2 mr-2" v-show="show_empty_field_error">
+      Llene todos los campos correctamente.
     </v-alert>
 
   </v-card>
@@ -103,9 +111,14 @@ export default {
     return {
       show_success_alert: false,
       show_error_alert: false,
+      show_empty_field_error: false,
+      pattern: /^[A-Za-z]{3}\d{4}$/,
       rules: [
         value => !!value || 'Requerido.',
-        value => (value || '').length <= 7 || 'Máximo 7 caracteres'
+        value => (value || '').length <= 7 || 'Máximo 7 caracteres',
+        value => {
+          return this.pattern.test(value) || 'Placa inválida. La placa debe poseer el siguiente formato: XXX0123'
+        }
       ],
       license_plate: null,
       date: null,
@@ -120,16 +133,22 @@ export default {
   methods: {
 
     query () {
-      const params = '?license_plate=' + this.license_plate + '&date=' + this.date + '&time=' + this.time
-      const path = 'http://localhost:5000/api/query' + params
       this.show_success_alert = false
       this.show_error_alert = false
 
-      axios.get(path).then((response) => {
-        response.data.available ? (this.show_success_alert = true) : (this.show_error_alert = true)
-      }).catch((error) => {
-        console.log(error)
-      })
+      if (!this.pattern.test(this.license_plate) || this.date == null || this.time == null) {
+        this.show_empty_field_error = true
+      } else {
+        const params = '?license_plate=' + this.license_plate + '&date=' + this.date + '&time=' + this.time
+        const path = 'http://localhost:5000/api/query' + params
+
+        axios.get(path).then((response) => {
+          response.data.available ? (this.show_success_alert = true) : (this.show_error_alert = true)
+        }).catch((error) => {
+          console.log(error)
+        })
+        this.show_empty_field_error = false
+      }
     }
 
   }

@@ -1,6 +1,5 @@
 # Pico y Placa Predictor
 
-One Paragraph of project description goes here
 
 ## Getting Started
 
@@ -12,6 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Vuetify 2.2.15
 * Flask 1.1.1
 * Python 3.7.5
+* Pytest 5.3.5
 
 ### Installing
 
@@ -37,6 +37,15 @@ To run the web app, execute the following steps inside the project root folder i
 cd webapp
 npm install
 npm run dev
+```
+
+## Running the tests
+
+This project contains a set of unit tests that cover the core feature of the API in different scenarios. To execute them, execute the following sencentes in the project root folder: 
+
+```
+cd core
+pytest
 ```
 
 ## Author
