@@ -41,7 +41,7 @@ npm run dev
 
 ## Running the tests
 
-This project contains a set of unit tests that cover the core feature of the API in different scenarios. To execute them, execute the following sencentes in the project root folder: 
+This project contains a set of unit tests that cover the core features that the API provides, and different scenarios are tested. To execute them, execute the following statements in the project root folder: 
 
 ```
 cd core
