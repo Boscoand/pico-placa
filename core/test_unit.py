@@ -13,7 +13,7 @@ def test_client():
     yield app.test_client()
 
 def test_available_weekend(test_client):
-    """Verifies if a"""
+    """Verifies if a car is available to be used in the weekend"""
     
     license_plate = 'MCM4111'
     date = '2020-02-29'
@@ -27,7 +27,7 @@ def test_available_weekend(test_client):
     assert json_response['day'] == 'Sábado'
 
 def test_available_datetime(test_client):
-    """Verifies if a"""
+    """Verifies if a car is available to be used in an available datetime"""
     
     license_plate = 'MCM4111'
     date = '2020-03-02'
@@ -41,7 +41,7 @@ def test_available_datetime(test_client):
     assert json_response['day'] == 'Lunes'
 
 def test_unavailable_datetime(test_client):
-    """Verifies if a"""
+    """Verifies if a car is available to be used in a not available datetime"""
     
     license_plate = 'MCM4111'
     date = '2020-03-02'
