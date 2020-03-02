@@ -39,6 +39,10 @@ npm install
 npm run dev
 ```
 
+Then you are able to open your browser and visit the page http://localhost:8080/ to see the project up. 
+
+![Alt Text](https://media.giphy.com/media/Suy1xNS06nEdHmYtCf/giphy.gif)
+
 ## Running the tests
 
 This project contains a set of unit tests that cover the core features that the API provides, and different scenarios are tested. To execute them, execute the following statements in the project root folder: 
