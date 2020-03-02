@@ -82,6 +82,14 @@
       <v-btn tile color="primary" dark v-on:click="query">CONSULTAR</v-btn>
     </v-card-actions>
 
+    <v-alert type="success" class="ml-2 mr-2 mt-10" v-show="show_success_alert">
+      Su vehículo sí puede circular el {{date}} a las {{time}}.
+    </v-alert>
+
+    <v-alert type="error" class="ml-2 mr-2 mt-10" v-show="show_error_alert">
+      Su vehículo no puede circular el {{date}} a las {{time}}.
+    </v-alert>
+
   </v-card>
 </template>
 
@@ -91,10 +99,10 @@ import axios from 'axios'
 
 export default {
 
-  name: 'Main',
-
   data () {
     return {
+      show_success_alert: false,
+      show_error_alert: false,
       rules: [
         value => !!value || 'Requerido.',
         value => (value || '').length <= 7 || 'Máximo 7 caracteres'
@@ -114,9 +122,11 @@ export default {
     query () {
       const params = '?license_plate=' + this.license_plate + '&date=' + this.date + '&time=' + this.time
       const path = 'http://localhost:5000/api/query' + params
-      axios.get(path).then((respuesta) => {
-        this.mensaje = respuesta.data
-        console.log(path)
+      this.show_success_alert = false
+      this.show_error_alert = false
+
+      axios.get(path).then((response) => {
+        response.data.available ? (this.show_success_alert = true) : (this.show_error_alert = true)
       }).catch((error) => {
         console.log(error)
       })
