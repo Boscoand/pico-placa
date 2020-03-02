@@ -5,6 +5,16 @@ from datetime import datetime
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+DAYS = [
+    'Lunes', 
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo'
+]
+
 DAY_RULES = {
     0: ['1', '2'],
     1: ['3', '4'],
@@ -30,7 +40,10 @@ def query():
     day = datetime.strptime(date, '%Y-%m-%d').weekday()
 
     response = {
-        'available': True
+        'available': True,
+        'day': DAYS[day],
+        'date': date,
+        'time': time
     }
 
     if day > 4:
