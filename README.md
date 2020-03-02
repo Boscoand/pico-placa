@@ -26,9 +26,9 @@ This project has two independent applications: the web app and the API. To run t
 ```
 cd core
 virtualenv -p python3 .venv
-pip install -r requirements.txt
 source .venv/bin/activate
-python python api.py
+pip install -r requirements.txt
+python api.py
 ```
 
 To run the web app, execute the following steps inside the project root folder in another terminal:
@@ -45,6 +45,7 @@ This project contains a set of unit tests that cover the core feature of the API
 
 ```
 cd core
+source .venv/bin/activate
 pytest
 ```
 
